@@ -1,8 +1,8 @@
 /*
  * io.cpp
- *
- *  Created on: Aug 26, 2013
- *      Author: lee
+ * Functions for working with inputs and outputs from sensors to hardware pins
+ * on the Raspberry Pi
+ * Author: Daniel Lee, 2013
  */
 
 #include "wiringSerial.h"
@@ -30,4 +30,29 @@ int getDistance(const int serial_connection) {
       }
   }
   return distance;
+}
+
+/*
+ * valueToPercent:
+ *   Find the percent of a value's distance between given upper and lower
+ *   ranges
+ */
+
+double valueToPercent(double value, double min, double max) {
+    double percent;
+    if (value < min) percent = 0;
+    else if (value > max) percent = 1;
+    else percent = (value - min) / max;
+    return percent;
+}
+
+/*
+ * percentToValue:
+ *   Find the value at the given percent's distance between given upper and
+ *   lower ranges
+ */
+
+double percentToValue(double percent, double min, double max) {
+    double range = max - min;
+    return (percent * range) + min;
 }
