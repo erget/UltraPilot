@@ -13,7 +13,7 @@
  *   serial_connection
  */
 
-int getDistance(const int serial_connection) {
+int getDistance(const int &serial_connection) {
   int distance = 0;
   int counter = 100;
   int output;
@@ -38,7 +38,8 @@ int getDistance(const int serial_connection) {
  *   ranges
  */
 
-double valueToPercent(double value, double min, double max) {
+double valueToPercent(const double &value, const double &min, const double &max)
+{
     double percent;
     if (value < min) percent = 0;
     else if (value > max) percent = 1;
@@ -52,7 +53,8 @@ double valueToPercent(double value, double min, double max) {
  *   lower ranges
  */
 
-double percentToValue(double percent, double min, double max) {
+double percentToValue(const double &percent, const double &min,
+        const double &max) {
     double range = max - min;
     return (percent * range) + min;
 }

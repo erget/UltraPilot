@@ -1,7 +1,10 @@
 CFLAGS=-c
 OBJS=src/main.o src/io.o
-LIBS=external/wiringPi/wiringPi/wiringSerial.o
-EXE=Debug/BatPie
+LIBS=external/wiringPi/wiringPi/wiringSerial.o \
+	 external/wiringPi/wiringPi/wiringPi.o	   \
+	 external/wiringPi/wiringPi/piHiPri.o	   \
+	 /lib/arm-linux-gnueabihf/libpthread.so.0
+EXE=Debug/BatPi
 
 all:	$(EXE)
 
