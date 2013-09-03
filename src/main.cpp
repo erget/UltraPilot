@@ -29,7 +29,7 @@ std::string USAGE =
 "  linear        Vibration is scaled linearly to distance \n"
 "  logarithmic   Vibration is scared logarithmically to distance \n"
 "\n"
-"Report date bugs to lee@isi-solutions.org\n";
+"Report date bugs to lee@isi-solutions.org \n";
 
 int main(int argc, char *argv[]) {
 	if (argc != 2 || argv[1] == "-h" || argv[1] == "--help") {
@@ -41,12 +41,21 @@ int main(int argc, char *argv[]) {
     pinMode(1, PWM_OUTPUT);
 	int serial = serialOpen("/dev/ttyUSB0", 9600);
 	int output;
+	int pwm_value;
 	while (1) {
         output = getDistance(serial);
-        double distance_percent = valueToPercent(output, MIN_RANGE,
-                MAX_RANGE);
-        int pwm_value = percentToValue(1 - distance_percent, MIN_VIBRATION,
-                MAX_VIBRATION);
+        if (std::string(argv[1]) == "linear") {
+        	double distance_percent = valueToPercent(output,
+        			MIN_RANGE, MAX_RANGE);
+        	pwm_value = percentToValue(1 - distance_percent,
+        			MIN_VIBRATION, MAX_VIBRATION);
+        } else if (std::string(argv[1]) == "logarithmic")
+        	pwm_value = getVibration(output);
+		else {
+			std::cout << "Invalid input!" << std::endl;
+			std::cout << USAGE;
+			return 1;
+		}
         pwmWrite(1, pwm_value);
     }
 	return 0;

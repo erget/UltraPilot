@@ -5,6 +5,7 @@
  * Author: Daniel Lee, 2013
  */
 
+#include <cmath>
 #include "wiringSerial.h"
 
 /*
@@ -30,6 +31,20 @@ int getDistance(const int &serial_connection) {
       }
   }
   return distance;
+}
+
+/*
+ * getVibration:
+ *   Return a logarithmic vibration value based on the distance measured. The
+ *   function is designed to work with values between 0 and 400, returning a
+ *   value inclusively between 1023 and 0.
+ * Author: Daniel Lee, 2013
+ */
+
+int getVibration(const int &distance) {
+    int vibration = -236.7 * log2(distance) + 2046;
+    if (vibration < 0) vibration = 0;
+    return vibration;
 }
 
 /*
