@@ -13,7 +13,7 @@
 
 #include "io.h"
 
-int MIN_RANGE = 0;
+int MIN_RANGE = 20;
 int MAX_RANGE = 400;
 int MIN_VIBRATION = 1;
 int MAX_VIBRATION = 1023;
@@ -44,6 +44,11 @@ int main(int argc, char *argv[]) {
 	int serial = serialOpen("/dev/ttyUSB0", 9600);
 	int output;
 	int pwm_value;
+
+    #ifndef NDEBUG
+    std::cout << "Option chosen: " << argv[1] << std::endl;
+    #endif
+    
 	while (1) {
         output = getDistance(serial);
         if (std::string(argv[1]) == "linear") {
