@@ -38,25 +38,41 @@ int getDistance(const int &serial_connection) {
  *   Return a logarithmic vibration value based on the distance measured. The
  *   function is designed to work with values between 0 and 400, returning a
  *   value inclusively between 1023 and 0.
- * Author: Daniel Lee, 2013
  */
 
-int getVibration(const int &distance) {
-    int vibration = -236.7 * log2(distance) + 2046;
+// TODO: Adjust this curve, it shuts down vibration at 2m already
+int logarithmicVibration(const int &distance) {
+    //int vibration = -236.7 * log2(distance) + 2046;
+    int vibration = -300 * log(distance) + 2046;
     if (vibration < 0) vibration = 0;
     return vibration;
 }
 
 /*
  * bilinearVibration
- *   Scale vibration using two linear scales: One above and one below 1.5m
+ *   Scale vibration using two linear scales: One above and one below the
+ *   midrange.
  */
-// TODO: This has 1023 vibration at 0, not at 20. 0 is never reached.
-int bilinearVibration(const int &distance) {
+
+int bilinearVibration(const int &distance, const int &min_distance,
+        const int &max_distance, const int &min_vibration,
+        const int &max_vibration) {
     int vibration;
-    if (distance > 400) vibration = 0;
-    else if (distance < 150) vibration = -3.41 * distance + 1024;
-    else vibration = -2.048 * distance + 819.2;
+    double slope, intercept;
+    int mid_distance = (min_distance + max_distance) / 2;
+    int mid_vibration = (min_vibration + max_vibration) / 2;
+
+    if (distance < mid_distance) {
+        slope = (max_vibration - mid_vibration) /
+                (min_distance - mid_distance);
+        intercept = max_vibration - (slope * min_distance);
+    } else {
+        slope = (mid_vibration - min_vibration) /
+                (mid_distance - max_distance);
+        intercept = max_vibration - (slope * max_distance);
+    }
+    vibration = slope * distance + intercept;
+    if (vibration < min_vibration) vibration = 0;
     return vibration;
 }
 

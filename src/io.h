@@ -9,9 +9,10 @@
 #define IO_H_
 
 int getDistance(const int &serial_connection);
-// Rename to logVibration
-int getVibration(const int &distance);
-int bilinearVibration(const int &distance);
+int logarithmicVibration(const int &distance);
+int bilinearVibration(const int &distance, const int &min_distance,
+        const int &max_distance, const int &min_vibration,
+        const int &max_vibration);
 double valueToPercent(const double &value, const double &min, const double &max);
 double percentToValue(const double &percent, const double &min, const double &max);
 

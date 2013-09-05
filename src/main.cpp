@@ -57,9 +57,10 @@ int main(int argc, char *argv[]) {
         	pwm_value = percentToValue(1 - distance_percent,
         			MIN_VIBRATION, MAX_VIBRATION);
         } else if (std::string(argv[1]) == "logarithmic")
-        	pwm_value = getVibration(output);
+        	pwm_value = logarithmicVibration(output);
         else if (std::string(argv[1]) == "bilinear")
-        	pwm_value = bilinearVibration(output);
+        	pwm_value = bilinearVibration(output, MIN_RANGE, MAX_RANGE,
+                    MIN_VIBRATION, MAX_VIBRATION);
 		else {
 			std::cout << "Invalid input!" << std::endl;
 			std::cout << USAGE;
