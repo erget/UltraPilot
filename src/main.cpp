@@ -13,11 +13,11 @@
 
 #include "io.h"
 
-int MIN_RANGE = 20;
-int MAX_RANGE = 400;
-int MIN_VIBRATION = 1;
-int MAX_VIBRATION = 1023;
-std::string USAGE =
+const int MIN_RANGE = 20;
+const int MAX_RANGE = 400;
+const int MIN_VIBRATION = 1;
+const int MAX_VIBRATION = 1023;
+const std::string USAGE =
 "Usage: BatPi [SCALING PARAMETER] \n"
 "\n"
 "Sense the distance to the nearest object using an ultrasonic ranger and \n"
