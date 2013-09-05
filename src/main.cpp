@@ -28,6 +28,8 @@ std::string USAGE =
 "SCALING PARAMETER controls the output. Possible parameters are: \n"
 "  linear        Vibration is scaled linearly to distance \n"
 "  logarithmic   Vibration is scared logarithmically to distance \n"
+"  bilinear      Vibration is scaled more strongly for objects detected at \n"
+"                less than 150cm \n"
 "\n"
 "Report date bugs to lee@isi-solutions.org \n";
 
@@ -51,11 +53,19 @@ int main(int argc, char *argv[]) {
         			MIN_VIBRATION, MAX_VIBRATION);
         } else if (std::string(argv[1]) == "logarithmic")
         	pwm_value = getVibration(output);
+        else if (std::string(argv[1]) == "bilinear")
+        	pwm_value = bilinearVibration(output);
 		else {
 			std::cout << "Invalid input!" << std::endl;
 			std::cout << USAGE;
 			return 1;
 		}
+
+        #ifndef NDEBUG
+        std::cout << "Distance: " << output << "\t Vibration:" << pwm_value
+            << std::endl;
+        #endif
+
         pwmWrite(1, pwm_value);
     }
 	return 0;

@@ -48,6 +48,19 @@ int getVibration(const int &distance) {
 }
 
 /*
+ * bilinearVibration
+ *   Scale vibration using two linear scales: One above and one below 1.5m
+ */
+// TODO: This has 1023 vibration at 0, not at 20. 0 is never reached.
+int bilinearVibration(const int &distance) {
+    int vibration;
+    if (distance > 400) vibration = 0;
+    else if (distance < 150) vibration = -3.41 * distance + 1024;
+    else vibration = -2.048 * distance + 819.2;
+    return vibration;
+}
+
+/*
  * valueToPercent:
  *   Find the percent of a value's distance between given upper and lower
  *   ranges
