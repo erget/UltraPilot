@@ -87,7 +87,7 @@ double valueToPercent(const double &value, const double &min, const double &max)
     double percent;
     if (value < min) percent = 0;
     else if (value > max) percent = 1;
-    else percent = (value - min) / max;
+    else percent = (value - min) / (max - min);
     return percent;
 }
 
