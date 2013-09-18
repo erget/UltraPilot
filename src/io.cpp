@@ -42,35 +42,45 @@ int getDistance(const int &serial_connection) {
 
 int logarithmicVibration(const int &distance) {
     int vibration = -300 * log(distance) + 2046;
-    if (vibration < 0) vibration = 0;
+    if (vibration < 0)
+        vibration = 0;
     return vibration;
 }
 
 /*
  * bilinearVibration
  *   Scale vibration using two linear scales: One above and one below the
- *   midrange.
+ *   midrange. This should provide the user with more useful input - distances
+ *   measured below the middle of the measurable range will be sensed with a
+ *   higher resolution than those measured at a greater distance.
+
+ *   The current function divides covers 75% of the vibration range in the
+ *   first half of the measurable distance. The following range is scaled
+ *   accordingly.
  */
 
-int bilinearVibration(const int &distance, const int &min_distance,
-        const int &max_distance, const int &min_vibration,
-        const int &max_vibration) {
+int bilinearVibration(const int &distance, const double &min_distance,
+        const double &max_distance, const double &min_vibration,
+        const double &max_vibration) {
     int vibration;
     double slope, intercept;
     int mid_distance = (min_distance + max_distance) / 2;
-    int mid_vibration = (min_vibration + max_vibration) / 2;
+    int mid_vibration = (min_vibration + max_vibration) / 4;
 
     if (distance < mid_distance) {
         slope = (max_vibration - mid_vibration) /
-                (min_distance - mid_distance);
+        		(min_distance - mid_distance);
         intercept = max_vibration - (slope * min_distance);
     } else {
         slope = (mid_vibration - min_vibration) /
-                (mid_distance - max_distance);
-        intercept = max_vibration - (slope * max_distance);
+        		(mid_distance - max_distance);
+        intercept = min_vibration - (slope * max_distance);
     }
     vibration = slope * distance + intercept;
-    if (vibration < min_vibration) vibration = 0;
+    if (vibration < min_vibration)
+        vibration = 0;
+    else if (vibration > max_vibration)
+        vibration = max_vibration;
     return vibration;
 }
 
