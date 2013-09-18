@@ -40,9 +40,7 @@ int getDistance(const int &serial_connection) {
  *   value inclusively between 1023 and 0.
  */
 
-// TODO: Adjust this curve, it shuts down vibration at 2m already
 int logarithmicVibration(const int &distance) {
-    //int vibration = -236.7 * log2(distance) + 2046;
     int vibration = -300 * log(distance) + 2046;
     if (vibration < 0) vibration = 0;
     return vibration;
