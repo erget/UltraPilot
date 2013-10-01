@@ -1,9 +1,14 @@
 CFLAGS=-c
-OBJS=src/main.o src/io.o
+OBJS=src/main.o              \
+		 src/rangefinder.o       \
+		 src/ultrasonic_sensor.o \
+		 src/vibration_motor.o   \
+		 src/vibration_scalers.o
 LIBS=external/wiringPi/wiringPi/wiringSerial.o \
-	 external/wiringPi/wiringPi/wiringPi.o	   \
-	 external/wiringPi/wiringPi/piHiPri.o	   \
-	 /lib/arm-linux-gnueabihf/libpthread.so.0
+   	 external/wiringPi/wiringPi/wiringPi.o	   \
+	   external/wiringPi/wiringPi/piHiPri.o	     \
+  	 /lib64/libpthread.so.0                    \
+  	 /lib/arm-linux-gnueabihf/libpthread.so.0
 EXE=Debug/BatPi
 
 all:	$(EXE)
@@ -11,11 +16,22 @@ all:	$(EXE)
 $(EXE):	$(OBJS) $(LIBS)
 	$(CXX) $(OBJS) $(LIBS) -o $(EXE)
 
-main.o:	src/main.cpp io.o
+src/main.o:	src/main.cpp io.o
 	$(CXX) $(CFLAGS) src/main.cpp -o src/main.o
 	
-io.o: src/io.cpp src/io.h
-	$(CXX) $(CFLAGS) src/io.cpp -o src/io.o
+src/rangefinder.o: src/rangefinder.hpp src/rangefinder.cpp         \
+									 src/vibration_scalers.o src/ultrasonic_sensor.o \
+									 src/vibration_motor.o
+	$(CXX) $(CFLAGS) src/rangefinder.cpp -o src/rangefinder.o
+	
+src/ultrasonic_sensor.o: src/ultrasonic_sensor.hpp src/ultrasonic_sensor.cpp
+	$(CXX) $(CFLAGS) src/ultrasonic_sensor.cpp -o src/ultrasonic_sensor.o
+												 
+src/vibration_motor.o: src/vibration_motor.hpp src/vibration_motor.cpp
+	$(CXX) $(CFLAGS) src/vibration_motor.cpp -o src/vibration_motor.o
+	
+src/vibration_scalers.o: src/vibration_scalers.hpp src/vibration_scalers.cpp
+	$(CXX) $(CFLAGS) src/vibration_scalers.cpp -o src/vibration_scalers.o
 
 clean:
 	rm -f $(OBJS) $(EXE)
