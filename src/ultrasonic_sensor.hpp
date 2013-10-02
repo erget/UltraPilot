@@ -14,6 +14,11 @@
  *
  * The serial connection argument is used to connect the object to a serial
  * input device.
+ *
+ * Methods:
+ *  detect() - Detect nearest ranged object. Returns a number between 0 and
+ *             100, 0 meaning 0% of the detectable range and 100 being the
+ *             opposite.
  */
 class UltrasonicSensor {
 	double min_range;

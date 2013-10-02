@@ -32,5 +32,5 @@ double UltrasonicSensor::detect() {
 	}
     if (distance > max_range) distance = max_range;
 	// Returned range is normalized to percent of sensor's range
-	return (distance - min_range) / (max_range - min_range);
+	return (distance - min_range) / (max_range - min_range) * 100;
 }
