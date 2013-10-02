@@ -16,11 +16,11 @@
  * input device.
  */
 class UltrasonicSensor {
-	int min_range;
-	int max_range;
+	double min_range;
+	double max_range;
 	int serial_connection;
 public:
-	UltrasonicSensor(const int &min, const int &max, const int &serial);
+	UltrasonicSensor(const double &min, const double &max, const int &serial);
 	double detect();
 };
 

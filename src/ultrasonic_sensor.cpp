@@ -10,8 +10,8 @@
 
 #include "ultrasonic_sensor.hpp"
 
-UltrasonicSensor::UltrasonicSensor(const int &min,
-		const int &max, const int &serial):
+UltrasonicSensor::UltrasonicSensor(const double &min,
+		const double &max, const int &serial):
 		min_range(min), max_range(max), serial_connection(serial) {}
 
 double UltrasonicSensor::detect() {
@@ -30,6 +30,7 @@ double UltrasonicSensor::detect() {
 			counter /= 10;
 		}
 	}
+    if (distance > max_range) distance = max_range;
 	// Returned range is normalized to percent of sensor's range
 	return (distance - min_range) / (max_range - min_range);
 }
