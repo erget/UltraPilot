@@ -5,6 +5,10 @@
  *      Author: lee
  */
 
+#ifndef NDEBUG
+#include <iostream>
+#endif /* NDEBUG */
+
 #include <vector>
 
 #include "rangefinder.hpp"
@@ -22,6 +26,12 @@ void Rangefinder::update_vibrators() {
 	double range = sensor.detect();
 	double vibration = scaler->scale(range);
 	double full_vibration = 100 / vibrators.size();
+
+	#ifndef NDEBUG
+	std::cout << "Range: " << range;
+	std::cout << "Vibration: " << vibration;
+	#endif /* NDEBUG */
+
 	for (auto &vibrator : vibrators) {
 		if (vibration > full_vibration) {
 			vibrator.vibrate(100);
