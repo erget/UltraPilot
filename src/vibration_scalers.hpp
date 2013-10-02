@@ -5,8 +5,8 @@
  *      Author: lee
  */
 
-#ifndef RANGEFINDER_H_
-#define RANGEFINDER_H_
+#ifndef VIBRATIONSCALER_H_
+#define VIBRATIONSCALER_H_
 
 /* An abstract class for vibration scaling.
  *
@@ -15,8 +15,7 @@
  */
 class VibrationScaler {
 public:
-	virtual double scale(double &input);
-	virtual void ~destructor();
+	virtual double scale(const double &input) = 0;
 };
 
 /* Scale input linearly.
@@ -26,7 +25,7 @@ public:
  */
 class LinearScaler: public VibrationScaler {
 public:
-	double scale(double &input);
+	double scale(const double &input);
 };
 
 /* Scale input bilinearly.
@@ -35,7 +34,7 @@ public:
  * remaining 25% output range are used to cover the remaining 50% input range.
  */
 class BilinearScaler: public VibrationScaler {
-	double scale(double &input);
+	double scale(const double &input);
 };
 
 /* Distribute the input logarithmically onto the output.
@@ -44,7 +43,7 @@ class BilinearScaler: public VibrationScaler {
  * empirically.
  */
 class LogarithmicScaler: public VibrationScaler {
-	double scale(double &input);
+	double scale(const double &input);
 };
 
-#endif /* RANGEFINDER_H_ */
+#endif /* VIBRATIONSCALER_H_ */

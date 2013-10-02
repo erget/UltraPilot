@@ -8,11 +8,13 @@
 
 #include <cmath>
 
-double LinearScaler::scale(double &input) {
+#include "vibration_scalers.hpp"
+
+double LinearScaler::scale(const double &input) {
 	return 100 - input;
 }
 
-double BilinearScaler::scale(double &input) {
+double BilinearScaler::scale(const double &input) {
 	int output;
 	double slope, intercept;
 	int max_input = 100;
@@ -35,7 +37,7 @@ double BilinearScaler::scale(double &input) {
 	return output;
 }
 
-double LogarithmicScaler::scale(double &input) {
+double LogarithmicScaler::scale(const double &input) {
     int vibration = -log(input) * 21.5 + 100;
     if (vibration < 0) vibration = 0;
     return vibration;

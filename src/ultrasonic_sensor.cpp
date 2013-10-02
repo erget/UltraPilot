@@ -8,6 +8,8 @@
 
 #include "wiringSerial.h"
 
+#include "ultrasonic_sensor.hpp"
+
 UltrasonicSensor::UltrasonicSensor(const int &min,
 		const int &max, const int &serial):
 		min_range(min), max_range(max), serial_connection(serial) {}
