@@ -1,27 +1,25 @@
-CFLAGS=-c
-OBJS=src/main.o              \
-		 src/rangefinder.o       \
-		 src/ultrasonic_sensor.o \
-		 src/vibration_motor.o   \
-		 src/vibration_scalers.o
-LIBS=external/wiringPi/wiringPi/wiringSerial.o \
-   	 external/wiringPi/wiringPi/wiringPi.o	   \
-	   external/wiringPi/wiringPi/piHiPri.o	     \
-  	 /lib64/libpthread.so.0                    \
-  	 /lib/arm-linux-gnueabihf/libpthread.so.0
+RANGEFINDER_DEPENDENCIES=src/ultrasonic_sensor.o \
+                         src/vibration_motor.o   \
+                         src/vibration_scalers.o
+MAIN_DEPENDENCIES=src/rangefinder.o $(RANGEFINDER_DEPENDENCIES)
+
+CFLAGS=-c -std=c++0x
+OBJS=src/main.o $(MAIN_DEPENDENCIES)
+EXTERNAL_LIBS=external/wiringPi/wiringPi/wiringSerial.o \
+   	          external/wiringPi/wiringPi/wiringPi.o	    \
+              external/wiringPi/wiringPi/piHiPri.o	    \
+  	          /lib/arm-linux-gnueabihf/libpthread.so.0
 EXE=Debug/BatPi
 
 all:	$(EXE)
 
-$(EXE):	$(OBJS) $(LIBS)
-	$(CXX) $(OBJS) $(LIBS) -o $(EXE)
+$(EXE):	$(OBJS) $(EXTERNAL_LIBS)
+	$(CXX) $(OBJS) $(EXTERNAL_LIBS) -o $(EXE)
 
-src/main.o:	src/main.cpp io.o
+src/main.o:	src/main.cpp $(MAIN_DEPENDENCIES)
 	$(CXX) $(CFLAGS) src/main.cpp -o src/main.o
 	
-src/rangefinder.o: src/rangefinder.hpp src/rangefinder.cpp         \
-									 src/vibration_scalers.o src/ultrasonic_sensor.o \
-									 src/vibration_motor.o
+src/rangefinder.o: src/rangefinder.hpp src/rangefinder.cpp
 	$(CXX) $(CFLAGS) src/rangefinder.cpp -o src/rangefinder.o
 	
 src/ultrasonic_sensor.o: src/ultrasonic_sensor.hpp src/ultrasonic_sensor.cpp
