@@ -21,12 +21,12 @@
  *             opposite.
  */
 class UltrasonicSensor {
-	double min_range;
-	double max_range;
-	int serial_connection;
+    double min_range;
+    double max_range;
+    int serial_connection;
 public:
-	UltrasonicSensor(const double &min, const double &max, const int &serial);
-	double detect();
+    UltrasonicSensor(const double &min, const double &max, const int &serial);
+    double detect();
 };
 
 #endif /* ULTRASONIC_SENSOR_HPP_ */

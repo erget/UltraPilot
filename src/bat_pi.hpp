@@ -9,9 +9,9 @@
 #define BAT_PI_HPP_
 
 class BatPi {
-	std::vector<Rangefinder> rangefinders;
+    std::vector<Rangefinder> rangefinders;
 public:
-	void update_rangefinders();
+    void update_rangefinders();
 };
 
 #endif /* BAT_PI_HPP_ */

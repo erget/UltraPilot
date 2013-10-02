@@ -45,32 +45,36 @@ const std::string USAGE =
 "Report date bugs to lee@isi-solutions.org \n";
 
 int main(int argc, char *argv[]) {
-	if (argc != 2 || argv[1] == "-h" || argv[1] == "--help") {
-		std::cout << USAGE;
-		return 0;
-	}
+    if (argc != 2 || argv[1] == "-h" || argv[1] == "--help") {
+        std::cout << USAGE;
+        return 0;
+    }
 
     wiringPiSetup();
 
-    UltrasonicSensor sensor(MIN_RANGE,
-    		MAX_RANGE, serialOpen(DEVICE, BAUD_RATE));
+    UltrasonicSensor sensor(MIN_RANGE, MAX_RANGE,
+            serialOpen(DEVICE, BAUD_RATE));
 
     VibrationMotor vibrator(MIN_VIBRATION, MAX_VIBRATION, PIN);
-    std::vector<VibrationMotor> vibrators {vibrator};
+    std::vector<VibrationMotor> vibrators { vibrator };
 
     std::string scaler_type = argv[1];
     VibrationScaler *scaler;
-    if (scaler_type == "linear") scaler = new LinearScaler();
-    else if (scaler_type == "logarithmic") scaler = new LogarithmicScaler();
-    else if (scaler_type == "bilinear") scaler = new BilinearScaler();
+    if (scaler_type == "linear")
+        scaler = new LinearScaler();
+    else if (scaler_type == "logarithmic")
+        scaler = new LogarithmicScaler();
+    else if (scaler_type == "bilinear")
+        scaler = new BilinearScaler();
     else {
-    	std::cout << "Invalid input!" << std::endl;
-    	std::cout << USAGE;
-    	return 1;
+        std::cout << "Invalid input!" << std::endl;
+        std::cout << USAGE;
+        return 1;
     }
 
     Rangefinder wand(scaler, sensor, vibrators);
-    while (true) wand.update_vibrators();
+    while (true)
+        wand.update_vibrators();
 
-	return 0;
+    return 0;
 }

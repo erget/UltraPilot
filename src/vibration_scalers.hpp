@@ -15,7 +15,7 @@
  */
 class VibrationScaler {
 public:
-	virtual double scale(const double &input) = 0;
+    virtual double scale(const double &input) = 0;
 };
 
 /* Scale input linearly.
@@ -25,7 +25,7 @@ public:
  */
 class LinearScaler: public VibrationScaler {
 public:
-	double scale(const double &input);
+    double scale(const double &input);
 };
 
 /* Scale input bilinearly.
@@ -34,7 +34,7 @@ public:
  * remaining 25% output range are used to cover the remaining 50% input range.
  */
 class BilinearScaler: public VibrationScaler {
-	double scale(const double &input);
+    double scale(const double &input);
 };
 
 /* Distribute the input logarithmically onto the output.
@@ -43,7 +43,7 @@ class BilinearScaler: public VibrationScaler {
  * empirically.
  */
 class LogarithmicScaler: public VibrationScaler {
-	double scale(const double &input);
+    double scale(const double &input);
 };
 
 #endif /* VIBRATIONSCALER_H_ */
