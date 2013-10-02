@@ -56,13 +56,13 @@ int main(int argc, char *argv[]) {
     		MAX_RANGE, serialOpen(DEVICE, BAUD_RATE));
 
     VibrationMotor vibrator(MIN_VIBRATION, MAX_VIBRATION, PIN);
-    std::vector vibrators {vibrator};
+    std::vector<VibrationMotor> vibrators {vibrator};
 
     std::string scaler_type = argv[1];
-    VibrationScaler scaler;
-    if (scaler_type == "linear") scaler = LinearScaler;
-    else if (scaler_type == "logarithmic") scaler = LogarithmicScaler;
-    else if (scaler_type == "bilinear") scaler = BilinearScaler;
+    VibrationScaler *scaler;
+    if (scaler_type == "linear") scaler = new LinearScaler();
+    else if (scaler_type == "logarithmic") scaler = new LogarithmicScaler();
+    else if (scaler_type == "bilinear") scaler = new BilinearScaler();
     else {
     	std::cout << "Invalid input!" << std::endl;
     	std::cout << USAGE;

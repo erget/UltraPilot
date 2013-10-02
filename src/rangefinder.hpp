@@ -20,13 +20,13 @@
  * ultrasonic ranger differently to the vibration motors.
  */
 class Rangefinder {
-	VibrationScaler scaler;
+	VibrationScaler *scaler;
 	UltrasonicSensor sensor;
 	std::vector<VibrationMotor> vibrators;
 public:
-	Rangefinder(VibrationScaler &vib,
-			UltrasonicSensor &sensor,
-			std::vector<VibrationMotor> &vibrators);
+	Rangefinder(VibrationScaler *vib,
+			const UltrasonicSensor &sensor,
+			const std::vector<VibrationMotor> &vibrators);
 	void update_vibrators();
 };
 
