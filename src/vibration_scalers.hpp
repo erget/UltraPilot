@@ -34,6 +34,14 @@ public:
  * remaining 25% output range are used to cover the remaining 50% input range.
  */
 class BilinearScaler: public VibrationScaler {
+    int max_input;
+    int mid_input;
+    int min_input;
+    int max_output;
+    int mid_output;
+    int min_output;
+public:
+    BilinearScaler();
     double scale(const double &input);
 };
 
@@ -43,6 +51,7 @@ class BilinearScaler: public VibrationScaler {
  * empirically.
  */
 class LogarithmicScaler: public VibrationScaler {
+public:
     double scale(const double &input);
 };
 

@@ -14,16 +14,12 @@ double LinearScaler::scale(const double &input) {
     return 100 - input;
 }
 
+BilinearScaler::BilinearScaler(): max_input(100), mid_input(50), min_input(0),
+max_output(100), mid_output(25), min_output(0) {}
+
 double BilinearScaler::scale(const double &input) {
     int output;
     double slope, intercept;
-    int max_input = 100;
-    int mid_input = 50;
-    int min_input = 100;
-    int max_output = 100;
-    int mid_output = 25;
-    int min_output = 0;
-
     if (input < mid_input) {
         slope = (max_output - mid_output) / (min_input - mid_input);
         intercept = max_output - (slope * min_input);
