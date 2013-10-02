@@ -7,16 +7,27 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
 
 #include "wiringPi.h"
 #include "wiringSerial.h"
 
-#include "io.h"
+#include "rangefinder.hpp"
+#include "ultrasonic_sensor.hpp"
+#include "vibration_motor.hpp"
+#include "vibration_scalers.hpp"
 
+// Sensor parameters
 const int MIN_RANGE = 20;
 const int MAX_RANGE = 400;
+const char *DEVICE = "/dev/ttyUSB0";
+const int BAUD_RATE = 9600;
+
+// Vibrator parameters
 const int MIN_VIBRATION = 1;
 const int MAX_VIBRATION = 1023;
+const int PIN = 1;
+
 const std::string USAGE =
 "Usage: BatPi [SCALING PARAMETER] \n"
 "\n"
@@ -34,45 +45,36 @@ const std::string USAGE =
 "Report date bugs to lee@isi-solutions.org \n";
 
 int main(int argc, char *argv[]) {
-	if (argc != 2 || argv[1] == "-h" || argv[1] == "--help") {
-		std::cout << USAGE;
-		return 0;
-	}
+    if (argc != 2 || argv[1] == "-h" || argv[1] == "--help") {
+        std::cout << USAGE;
+        return 0;
+    }
 
     wiringPiSetup();
-    pinMode(1, PWM_OUTPUT);
-	int serial = serialOpen("/dev/ttyUSB0", 9600);
-	int output;
-	int pwm_value;
 
-    #ifndef NDEBUG
-    std::cout << "Option chosen: " << argv[1] << std::endl;
-    #endif
-    
-	while (1) {
-        output = getDistance(serial);
-        if (std::string(argv[1]) == "linear") {
-        	double distance_percent = valueToPercent(output,
-        			MIN_RANGE, MAX_RANGE);
-        	pwm_value = percentToValue(1 - distance_percent,
-        			MIN_VIBRATION, MAX_VIBRATION);
-        } else if (std::string(argv[1]) == "logarithmic")
-        	pwm_value = logarithmicVibration(output);
-        else if (std::string(argv[1]) == "bilinear")
-        	pwm_value = bilinearVibration(output, MIN_RANGE, MAX_RANGE,
-                    MIN_VIBRATION, MAX_VIBRATION);
-		else {
-			std::cout << "Invalid input!" << std::endl;
-			std::cout << USAGE;
-			return 1;
-		}
+    UltrasonicSensor sensor(MIN_RANGE, MAX_RANGE,
+            serialOpen(DEVICE, BAUD_RATE));
 
-        #ifndef NDEBUG
-        std::cout << "Distance: " << output << "\t Vibration:" << pwm_value
-            << std::endl;
-        #endif
+    VibrationMotor vibrator(MIN_VIBRATION, MAX_VIBRATION, PIN);
+    std::vector<VibrationMotor> vibrators { vibrator };
 
-        pwmWrite(1, pwm_value);
+    std::string scaler_type = argv[1];
+    VibrationScaler *scaler;
+    if (scaler_type == "linear")
+        scaler = new LinearScaler();
+    else if (scaler_type == "logarithmic")
+        scaler = new LogarithmicScaler();
+    else if (scaler_type == "bilinear")
+        scaler = new BilinearScaler();
+    else {
+        std::cout << "Invalid input!" << std::endl;
+        std::cout << USAGE;
+        return 1;
     }
-	return 0;
+
+    Rangefinder wand(scaler, sensor, vibrators);
+    while (true)
+        wand.update_vibrators();
+
+    return 0;
 }
