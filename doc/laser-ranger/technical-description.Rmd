@@ -68,7 +68,9 @@ plot(distances, c(differences, 0),
      main="Gap between measurements",
      ylab="cm",
      xlab="Range (cm)")
+# Even at a range of 400 cm, the device's precision is very high (under 10cm):
+differences[1]
+
 # Practically speaking, probably more than one pixel will be lit by the laser,
 # so this precision will decrease.
 ```
-
