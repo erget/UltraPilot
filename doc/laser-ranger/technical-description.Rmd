@@ -1,0 +1,74 @@
+Laser Ranger
+========================================================
+
+The laser ranger used in the UltraPilot takes advantage of the parallax effect
+in order to measure the distance to objects in front of the sensor. A laser and
+camera are set up in a rig pointing in exactly the same direction.
+
+In the examples shown here, the following setup is assumed:
+* Raspberry Pi camera (53° field of view, 2592 pixels across)
+* Laser pointer reflecting on a wavelength that can be read by the camera
+* A rig holding both with their centers 55 mm apart
+
+Because the distance between the centers of both the camera and the laser
+pointer are known, and the angle between the camer's center and the laser can be
+determined by the pixel position of the detected laser reflection, a simple
+trigonometric calculation can be used to calculate the distance between the
+laser and the object it strikes:
+
+```{r eval=FALSE, echo=TRUE}
+# rig.length - Distance between centers of camera and laser
+# angle - Degrees from directly in front of camera and detected laser reflection
+distance <- function(rig.length, angle) {
+  require(aspace)
+  rig.length * tan(as_radians(90) - as_radians(angle))
+}
+```
+
+For the Raspberry Pi's camera, this would produce the following precision:
+
+```{r fig.width=7, fig.height=6}
+# lit.pixel - Pixel lit by laser, on x-axis from left- (0) to rightmost
+# rig.length - Distance between centers of camera and laser in mm
+# picture.width - Picture width in pixels
+# fov - Camera's field of view in degrees
+distance.rpi <- function(lit.pixel, rig.length=55, picture.width=2592, fov=53) {
+  require(aspace)
+  picture.middle <- picture.width / 2
+  radians.per.pixel <- as_radians(fov) / picture.width
+  if (lit.pixel < picture.middle) stop("Instrument error.")
+  angle <- radians.per.pixel * (lit.pixel - picture.middle)
+  rig.length * tan(as_radians(90) - angle)
+}
+options(scipen=20)
+picture.width <- 2595
+plot(distance.rpi((picture.width / 2):picture.width),
+     main="Distance per pixel, entire range",
+     ylab="Distance (mm)",
+     xlab="Pixels from center")
+# It is readily apparent that the sensor's precision is extremely low at high
+# distances. If we plot a shorter range, though, we see that the precision is
+# relatively high - at least in theory.
+plot(distance.rpi((picture.width / 2):((picture.width / 2) + 70)) / 10,
+     main="Distance per pixel, relevant range",
+     ylab="Distance (cm)",
+     xlab="Pixels from center")
+# If we examine the sensor's performance at different ranges, the results are
+# quite promising.
+distances <- distance.rpi((picture.width / 2):picture.width) / 10
+differences <- abs(diff(distances))
+plot(distances, c(differences, 0),
+     main="Gap between measurements",
+     ylab="cm",
+     xlab="Range (cm)")
+# Especially the target range from 0-400 cm is promising.
+distances <- distances[distances < 400]
+differences <- abs(diff(distances))
+plot(distances, c(differences, 0),
+     main="Gap between measurements",
+     ylab="cm",
+     xlab="Range (cm)")
+# Practically speaking, probably more than one pixel will be lit by the laser,
+# so this precision will decrease.
+```
+
