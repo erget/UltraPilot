@@ -58,14 +58,14 @@ plot(distance.rpi((picture.width / 2):((picture.width / 2) + 70)) / 10,
 distances <- distance.rpi((picture.width / 2):picture.width) / 10
 differences <- abs(diff(distances))
 plot(distances, c(differences, 0),
-     main="Gap between measurements",
+     main="Resolution at varying ranges",
      ylab="cm",
      xlab="Range (cm)")
 # Especially the target range from 0-400 cm is promising.
 distances <- distances[distances < 400]
 differences <- abs(diff(distances))
 plot(distances, c(differences, 0),
-     main="Gap between measurements",
+     main="Resolution at varying ranges",
      ylab="cm",
      xlab="Range (cm)")
 # Even at a range of 400 cm, the device's precision is very high (under 10cm):
