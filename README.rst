@@ -19,7 +19,7 @@ In order to autostart it when the Pi is started, call it from
 Dependencies
 ============
 
-In order to compile BatPi, the compiled sources from `wiringPi
+In order to compile UltraPilot, the compiled sources from `wiringPi
 <http://wiringpi.com/>`_ need to be available. The ``Makefile`` includes an
 example of how to link them. Remember to change the paths as necessary to match
 your setup.

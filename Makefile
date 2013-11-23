@@ -9,7 +9,7 @@ EXTERNAL_LIBS=external/wiringPi/wiringPi/wiringSerial.o \
    	          external/wiringPi/wiringPi/wiringPi.o	    \
               external/wiringPi/wiringPi/piHiPri.o	    \
   	          /lib/arm-linux-gnueabihf/libpthread.so.0
-EXE=Debug/BatPi
+EXE=Debug/UltraPilot-1
 
 all:	$(EXE)
 
