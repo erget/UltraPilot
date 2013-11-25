@@ -1,7 +1,7 @@
 /*
- * BatPi - a program that uses Raspberry Pi to read distance measurements from
- * an ultrasonic sensor and report it to the user in the form of PWM vibration.
- * The stronger the vibration, the closer the detected range.
+ * UltraPilot Mark I - A program that reads distance measurements and reports
+ * them to th euser using haptic feedback in the form of vibration, inversely
+ * scaled to the distance measured.
  * Author: Daniel Lee, 2013
  */
 
@@ -29,7 +29,7 @@ const int MAX_VIBRATION = 1023;
 const int PIN = 1;
 
 const std::string USAGE =
-"Usage: BatPi [SCALING PARAMETER] \n"
+"Usage: UltraPilot-I [SCALING PARAMETER] \n"
 "\n"
 "Sense the distance to the nearest object using an ultrasonic ranger and \n"
 "report it to the user in the form of vibration. \n"

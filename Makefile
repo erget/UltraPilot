@@ -8,8 +8,9 @@ OBJS=src/main.o $(MAIN_DEPENDENCIES)
 EXTERNAL_LIBS=external/wiringPi/wiringPi/wiringSerial.o \
    	          external/wiringPi/wiringPi/wiringPi.o	    \
               external/wiringPi/wiringPi/piHiPri.o	    \
-  	          /lib/arm-linux-gnueabihf/libpthread.so.0
-EXE=Debug/BatPi
+  	          /lib64/libpthread.so.0
+  	          #/lib/arm-linux-gnueabihf/libpthread.so.0
+EXE=Debug/UltraPilot-I
 
 all:	$(EXE)
 
