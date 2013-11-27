@@ -21,10 +21,10 @@
  */
 class Rangefinder {
     VibrationScaler *scaler;
-    UltrasonicSensor sensor;
+    UltrasonicSensor *sensor;
     std::vector<VibrationMotor> vibrators;
 public:
-    Rangefinder(VibrationScaler *vib, const UltrasonicSensor &sensor,
+    Rangefinder(VibrationScaler *vib, UltrasonicSensor *sensor,
             const std::vector<VibrationMotor> &vibrators);
     void update_vibrators();
 };

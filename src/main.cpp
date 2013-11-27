@@ -52,7 +52,9 @@ int main(int argc, char *argv[]) {
 
     wiringPiSetup();
 
-    UltrasonicSensor sensor(MIN_RANGE, MAX_RANGE,
+    UltrasonicSensor *sensor;
+    sensor = new UltrasonicGeneralRanger(MIN_RANGE,
+            MAX_RANGE,
             serialOpen(DEVICE, BAUD_RATE));
 
     VibrationMotor vibrator(MIN_VIBRATION, MAX_VIBRATION, PIN);

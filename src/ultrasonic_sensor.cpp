@@ -1,5 +1,4 @@
 /*
-
  * ultrasonic_sensor.cpp
  *
  *  Created on: Sep 30, 2013
@@ -14,7 +13,7 @@ UltrasonicSensor::UltrasonicSensor(const double &min, const double &max,
         const int &serial) :
         min_range(min), max_range(max), serial_connection(serial) {}
 
-double UltrasonicSensor::detect() {
+double UltrasonicSensor::get_range() {
     int distance = 0;
     int counter = 100;
     int output;
@@ -37,3 +36,14 @@ double UltrasonicSensor::detect() {
     // Returned range is normalized to percent of sensor's range
     return (distance - min_range) / (max_range - min_range) * 100;
 }
+
+UltrasonicGeneralRanger::UltrasonicGeneralRanger(const double &min,
+        const double &max,
+        const int &serial): UltrasonicSensor(min, max, serial) {}
+
+void UltrasonicGeneralRanger::set_alert_level() {
+    double range = get_range();
+    alert_level = 100 - range;
+}
+
+UltrasonicSensor::~UltrasonicSensor() {}
