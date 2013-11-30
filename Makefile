@@ -1,8 +1,7 @@
 ULTRASONIC_DEPENDENCIES=src/sensors.o
 RANGEFINDER_DEPENDENCIES=$(ULTRASONIC_DEPENDENCIES) \
 						 src/ultrasonic_sensor.o \
-                         src/vibration_motor.o   \
-                         src/vibration_scalers.o
+                         src/vibration_motor.o
 MAIN_DEPENDENCIES=src/rangefinder.o $(RANGEFINDER_DEPENDENCIES)
 
 CFLAGS=-c -std=c++0x
@@ -27,9 +26,6 @@ src/rangefinder.o: src/rangefinder.hpp src/rangefinder.cpp
 src/vibration_motor.o: src/vibration_motor.hpp src/vibration_motor.cpp
 	$(CXX) $(CFLAGS) src/vibration_motor.cpp -o src/vibration_motor.o
 	
-src/vibration_scalers.o: src/vibration_scalers.hpp src/vibration_scalers.cpp
-	$(CXX) $(CFLAGS) src/vibration_scalers.cpp -o src/vibration_scalers.o
-
 src/ultrasonic_sensor.o: src/ultrasonic_sensor.hpp src/ultrasonic_sensor.cpp
 	$(CXX) $(CFLAGS) src/ultrasonic_sensor.cpp -o src/ultrasonic_sensor.o
 

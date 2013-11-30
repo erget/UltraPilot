@@ -13,23 +13,20 @@
 
 #include "rangefinder.hpp"
 
-#include "vibration_scalers.hpp"
 #include "ultrasonic_sensor.hpp"
 #include "vibration_motor.hpp"
 
-Rangefinder::Rangefinder(VibrationScaler *vib, UltrasonicSensor *sensor,
+Rangefinder::Rangefinder(UltrasonicSensor *sensor,
         const std::vector<VibrationMotor> &vibrators) :
-        scaler(vib), sensor(sensor), vibrators(vibrators) {
+        sensor(sensor), vibrators(vibrators) {
 }
 
 void Rangefinder::update_vibrators() {
     sensor->set_alert_level();
-    int range = sensor->get_alert_level();
-    double vibration = scaler->scale(range);
+    double vibration = sensor->get_alert_level();
     double full_vibration = 100 / vibrators.size();
 
 #ifndef NDEBUG
-    std::cout << "Range: " << range;
     std::cout << " Vibration: " << vibration;
     std::cout << std::endl;
 #endif /* NDEBUG */

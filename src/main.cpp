@@ -15,7 +15,6 @@
 #include "rangefinder.hpp"
 #include "ultrasonic_sensor.hpp"
 #include "vibration_motor.hpp"
-#include "vibration_scalers.hpp"
 
 // Sensor parameters
 const int MIN_RANGE = 20;
@@ -36,12 +35,6 @@ const std::string USAGE =
 "\n"
 "  -h, --help     display this help and exit \n"
 "\n"
-"SCALING PARAMETER controls the output. Possible parameters are: \n"
-"  linear        Vibration is scaled linearly to distance \n"
-"  logarithmic   Vibration is scared logarithmically to distance \n"
-"  bilinear      Vibration is scaled more strongly for objects detected at \n"
-"                less than 150cm \n"
-"\n"
 "Report date bugs to lee@isi-solutions.org \n";
 
 int main(int argc, char *argv[]) {
@@ -60,21 +53,7 @@ int main(int argc, char *argv[]) {
     VibrationMotor vibrator(MIN_VIBRATION, MAX_VIBRATION, PIN);
     std::vector<VibrationMotor> vibrators { vibrator };
 
-    std::string scaler_type = argv[1];
-    VibrationScaler *scaler;
-    if (scaler_type == "linear")
-        scaler = new LinearScaler();
-    else if (scaler_type == "logarithmic")
-        scaler = new LogarithmicScaler();
-    else if (scaler_type == "bilinear")
-        scaler = new BilinearScaler();
-    else {
-        std::cout << "Invalid input!" << std::endl;
-        std::cout << USAGE;
-        return 1;
-    }
-
-    Rangefinder wand(scaler, sensor, vibrators);
+    Rangefinder wand(sensor, vibrators);
     while (true)
         wand.update_vibrators();
 
