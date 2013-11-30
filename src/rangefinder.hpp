@@ -8,6 +8,7 @@
 #ifndef RANGEFINDER_H_
 #define RANGEFINDER_H_
 
+#include <memory>
 #include <vector>
 
 #include "ultrasonic_sensor.hpp"
@@ -19,10 +20,10 @@
  * ultrasonic ranger differently to the vibration motors.
  */
 class Rangefinder {
-    UltrasonicSensor *sensor;
+    std::shared_ptr<UltrasonicSensor> sensor;
     std::vector<VibrationMotor> vibrators;
 public:
-    Rangefinder(UltrasonicSensor *sensor,
+    Rangefinder(std::shared_ptr<UltrasonicSensor> sensor,
             const std::vector<VibrationMotor> &vibrators);
     void update_vibrators();
 };

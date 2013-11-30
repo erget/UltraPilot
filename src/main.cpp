@@ -6,6 +6,7 @@
  */
 
 #include <iostream>
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -45,10 +46,10 @@ int main(int argc, char *argv[]) {
 
     wiringPiSetup();
 
-    UltrasonicSensor *sensor;
-    sensor = new UltrasonicGeneralRanger(MIN_RANGE,
-            MAX_RANGE,
-            serialOpen(DEVICE, BAUD_RATE));
+    std::shared_ptr<UltrasonicSensor> sensor(
+            new UltrasonicGeneralRanger(MIN_RANGE,
+                    MAX_RANGE,
+                    serialOpen(DEVICE, BAUD_RATE)));
 
     VibrationMotor vibrator(MIN_VIBRATION, MAX_VIBRATION, PIN);
     std::vector<VibrationMotor> vibrators { vibrator };

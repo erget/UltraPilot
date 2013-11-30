@@ -16,7 +16,7 @@
 #include "ultrasonic_sensor.hpp"
 #include "vibration_motor.hpp"
 
-Rangefinder::Rangefinder(UltrasonicSensor *sensor,
+Rangefinder::Rangefinder(std::shared_ptr<UltrasonicSensor> sensor,
         const std::vector<VibrationMotor> &vibrators) :
         sensor(sensor), vibrators(vibrators) {
 }
