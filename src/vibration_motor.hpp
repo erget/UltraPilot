@@ -17,8 +17,8 @@ class VibrationMotor {
     int max_vibration;
     int pin;
 public:
-    VibrationMotor(const int &min, const int &max, const int &pin);
-    void vibrate(const double &percent);
+    VibrationMotor(const int & min, const int & max, const int & pin);
+    void vibrate(const double & percent);
 };
 
 #endif /* VIBRATION_MOTOR_HPP_ */

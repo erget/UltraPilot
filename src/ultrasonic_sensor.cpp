@@ -63,7 +63,6 @@ void UltrasonicGeneralRanger::set_alert_level() {
     alert_level = 100 - range;
 }
 
-UltrasonicSensor::~UltrasonicSensor() {}
 UltrasonicGroundSensor::UltrasonicGroundSensor(const double & min,
         const double & max,
         const int & serial,

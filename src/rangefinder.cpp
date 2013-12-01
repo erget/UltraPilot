@@ -17,7 +17,7 @@
 #include "vibration_motor.hpp"
 
 Rangefinder::Rangefinder(std::shared_ptr<UltrasonicSensor> sensor,
-        const std::vector<VibrationMotor> &vibrators) :
+        const std::vector<VibrationMotor> & vibrators) :
         sensor(sensor), vibrators(vibrators) {
 }
 
@@ -31,7 +31,7 @@ void Rangefinder::update_vibrators() {
     std::cout << std::endl;
 #endif /* NDEBUG */
 
-    for (auto &vibrator : vibrators) {
+    for (auto & vibrator : vibrators) {
         if (vibration > full_vibration) {
             vibrator.vibrate(100);
             vibration -= full_vibration;
