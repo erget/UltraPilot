@@ -93,6 +93,15 @@ void UltrasonicGroundSensor::set_alert_level() {
     double range = get_range();
     observations.push_back(range);
     if (observations.size() > warn_time) observations.pop_front();
+#ifndef NDEBUG
+    std::cout << "Number of observations: " << observations.size() <<
+            std::endl;
+    for (auto element = observations.begin();
+            element != observations.end();
+            element++)
+        std::cout << *element << " ";
+    std::cout << std::endl;
+#endif /* NDEBUG */
     double max_value = *std::max(observations.cbegin(), observations.cend());
     double min_value = *std::min(observations.cbegin(), observations.cend());
     double deviance = max_value - min_value;
