@@ -16,7 +16,7 @@
  */
 class Sensor {
 protected:
-    int alert_level;
+    double alert_level;
     virtual ~Sensor() = 0;
 public:
     virtual void set_alert_level() = 0;
