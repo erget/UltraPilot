@@ -39,7 +39,7 @@ const std::string USAGE =
 "Report date bugs to lee@isi-solutions.org \n";
 
 int main(int argc, char *argv[]) {
-    if (argc != 2 || argv[1] == "-h" || argv[1] == "--help") {
+    if (argc > 1 || argv[1] == "-h" || argv[1] == "--help") {
         std::cout << USAGE;
         return 0;
     }
