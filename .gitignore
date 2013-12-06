@@ -12,3 +12,12 @@
 *.la
 *.a
 
+# Build stuff
+Debug/*
+
+# Documentation
+doc/*
+
+# Eclipse
+.project
+.cproject

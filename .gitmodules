@@ -1,0 +1,6 @@
+[submodule "external/wiringPi"]
+	path = external/wiringPi
+	url = git://git.drogon.net/wiringPi
+[submodule "external/userland"]
+	path = external/userland
+	url = https://github.com/raspberrypi/userland.git
