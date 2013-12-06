@@ -11,6 +11,7 @@
 #endif /* NDEBUG */
 
 #include <algorithm>
+#include <cmath>
 
 #include "wiringSerial.h"
 
@@ -93,17 +94,25 @@ void UltrasonicGroundSensor::set_alert_level() {
     double range = get_range();
     observations.push_back(range);
     if (observations.size() > warn_time) observations.pop_front();
+    double max_value = *std::max_element(observations.cbegin(),
+            observations.cend());
+    double min_value = *std::min_element(observations.cbegin(),
+            observations.cend());
+    double deviance = std::abs(max_value - min_value);
+    alert_level = (deviance > max_deviance ? 100 : 0);
 #ifndef NDEBUG
     std::cout << "Number of observations: " << observations.size() <<
             std::endl;
+    std::cout << "Values: ";
     for (auto element = observations.begin();
             element != observations.end();
             element++)
         std::cout << *element << " ";
     std::cout << std::endl;
+    std::cout << "max, min, deviance, alert: " <<
+        max_value << ", " <<
+        min_value << ", " <<
+        deviance << ", " <<
+        alert_level << std::endl;
 #endif /* NDEBUG */
-    double max_value = *std::max(observations.cbegin(), observations.cend());
-    double min_value = *std::min(observations.cbegin(), observations.cend());
-    double deviance = max_value - min_value;
-    alert_level = (deviance > max_deviance ? 100 : 0);
 }

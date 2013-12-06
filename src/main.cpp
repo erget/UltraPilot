@@ -23,7 +23,7 @@ const int MAX_RANGE = 400;
 const char *DEVICE = "/dev/ttyUSB0";
 const int BAUD_RATE = 9600;
 const double GROUND_OBSTACLE_SIZE = 0.01315;
-const int WARNING_TIME = 6;
+const int WARNING_TIME = 10;
 
 // Vibrator parameters
 const int MIN_VIBRATION = 1;
