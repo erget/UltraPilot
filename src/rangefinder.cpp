@@ -27,8 +27,7 @@ void Rangefinder::update_vibrators() {
     double full_vibration = 100 / vibrators.size();
 
 #ifndef NDEBUG
-    std::cout << "Alert level: " << vibration;
-    std::cout << std::endl;
+    std::cout << "Alert level: " << vibration << std::endl;
 #endif /* NDEBUG */
 
     for (auto & vibrator : vibrators) {

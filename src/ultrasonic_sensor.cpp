@@ -1,9 +1,14 @@
 /*
+
  * ultrasonic_sensor.cpp
  *
  *  Created on: Sep 30, 2013
  *      Author: lee
  */
+
+#ifndef NDEBUG
+#include <iostream>
+#endif /* NDEBUG */
 
 #include <algorithm>
 
@@ -43,6 +48,11 @@ double UltrasonicSensor::get_range() {
     }
     if (distance > max_range)
         distance = max_range;
+
+#ifndef NDEBUG
+    std::cout << "Distance measured: " << distance << std::endl;
+#endif /* NDEBUG */
+
     // Returned range is normalized to percent of sensor's range
     return (distance - min_range) / (max_range - min_range) * 100;
 }
