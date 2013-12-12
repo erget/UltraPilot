@@ -2,7 +2,7 @@
  * rangefinder.cpp
  *
  *  Created on: Sep 30, 2013
- *      Author: lee
+ *      Author:lee
  */
 
 #ifndef NDEBUG
@@ -21,6 +21,13 @@ Rangefinder::Rangefinder(std::shared_ptr<UltrasonicSensor> sensor,
         sensor(sensor), vibrators(vibrators) {
 }
 
+/*
+ * Update vibrators based on sensor reading.
+ *
+ * First, the ``Sensor`` updates its range reading. This is communicated to the
+ * ``Rangefinder`` as the ``alert_level``. That value is used to update the
+ * ``Rangefinder``'s ``vector`` of ``VibrationMotor``s.
+ */
 void Rangefinder::update_vibrators() {
     sensor->set_alert_level();
     double vibration = sensor->get_alert_level();

@@ -14,10 +14,11 @@
 #include "ultrasonic_sensor.hpp"
 #include "vibration_motor.hpp"
 
-/* An ultrasonic sensor connected to one or more vibrators.
+/* A ``Sensor`` connected to one or more vibrators.
  *
- * The class uses the state pattern to scale the distance detected with the
- * ultrasonic ranger differently to the vibration motors.
+ * The ``Sensor`` detects the range to objects continuously. The ``Rangefinder``
+ * polls it continuously and uses the alert level it reports to distribute the
+ * alert to its vibrators.
  */
 class Rangefinder {
     std::shared_ptr<UltrasonicSensor> sensor;
